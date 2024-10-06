@@ -11,16 +11,17 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class PharmacySearchRequest {
 
-    @NotBlank
-    private String name;
+    private String Q0; /*주소(시도)*/
 
-    @NotBlank
-    @Email
-    private String email;
+    private String Q1; /*주소(시군구)*/
 
-    @NotBlank
-    private String address;
+    private String QT; /*월~일요일, 공휴일: 1~8*/
 
-    @NotBlank
-    private String password;
+    private String QN; /*기관명*/
+
+    private String ORD; /*순서*/
+
+    private String pageNo; /*페이지 번호*/
+
+    private String numOfRows; /*목록 건수*/
 }
