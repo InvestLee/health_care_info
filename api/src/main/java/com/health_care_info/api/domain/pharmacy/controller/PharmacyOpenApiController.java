@@ -2,6 +2,7 @@ package com.health_care_info.api.domain.pharmacy.controller;
 
 import com.health_care_info.api.common.api.Api;
 import com.health_care_info.api.domain.pharmacy.business.PharmacyBusiness;
+import com.health_care_info.api.domain.pharmacy.model.PharmacyIdRequest;
 import com.health_care_info.api.domain.pharmacy.model.PharmacyResponse;
 import com.health_care_info.api.domain.pharmacy.model.PharmacySearchRequest;
 import lombok.RequiredArgsConstructor;
@@ -19,8 +20,17 @@ public class PharmacyOpenApiController {
     private final PharmacyBusiness pharmacyBusiness;
 
     @PostMapping("/pharmacyList")
-    public Api<List<PharmacyResponse>> search(
+    public Api<List<PharmacyResponse>> listSearch(
             @RequestBody Api<PharmacySearchRequest> request
+    ) throws SAXException, IOException, ParserConfigurationException
+    {
+        var response = pharmacyBusiness.search(request.getBody());
+        return Api.OK(response);
+    }
+
+    @PostMapping("/pharmacyId")
+    public Api<List<PharmacyResponse>> hpIdSearch(
+            @RequestBody Api<PharmacyIdRequest> request
     ) throws SAXException, IOException, ParserConfigurationException
     {
         var response = pharmacyBusiness.search(request.getBody());

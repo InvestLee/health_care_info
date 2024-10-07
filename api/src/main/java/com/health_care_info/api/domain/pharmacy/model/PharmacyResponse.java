@@ -10,7 +10,14 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class PharmacyResponse {
+    //약국별 기본정보 조회
+    private String dutyUrl;
 
+    private String dutyImg;
+
+    private String dutyInf;
+
+    //약국 목록정보 조회
     private String rnum;
 
     private String dutyAddr;

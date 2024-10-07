@@ -21,6 +21,9 @@ public class PharmacyConverter {
         return Optional.ofNullable(eElement)
                 .map(it ->{
                     return PharmacyResponse.builder()
+                            .dutyUrl(getTagValue("dutyUrl", eElement))
+                            .dutyImg(getTagValue("dutyImg", eElement))
+                            .dutyInf(getTagValue("dutyInf", eElement))
                             .rnum(getTagValue("rnum", eElement))
                             .dutyAddr(getTagValue("dutyAddr", eElement))
                             .dutyEtc(getTagValue("dutyEtc", eElement))
