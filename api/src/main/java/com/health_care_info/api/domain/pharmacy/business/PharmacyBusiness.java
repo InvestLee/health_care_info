@@ -141,4 +141,19 @@ public class PharmacyBusiness {
         PharmacyResponse response = search(request);
         return response;
     }
+
+    public List<PharmacyResponse> checkAllBookmark(
+            User user
+    )throws SAXException, IOException, ParserConfigurationException
+    {
+        var entity = pharmacyService.checkAllBookmark(user.getId());
+        List<PharmacyResponse> response = new ArrayList<>();
+        PharmacyIdRequest input;
+        for(int i = 0; i < entity.size(); i++){
+            input = new PharmacyIdRequest();
+            input.setHpId(entity.get(i).getHpId());
+            response.add(search(input));
+        }
+        return response;
+    }
 }

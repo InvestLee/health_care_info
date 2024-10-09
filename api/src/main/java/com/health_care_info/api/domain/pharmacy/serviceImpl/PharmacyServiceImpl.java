@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -31,5 +32,9 @@ public class PharmacyServiceImpl implements PharmacyService {
                 })
                 .orElseThrow(()-> new ApiException(CommonErrorCode.NULL_POINT, "PharmEntity Null"))
                 ;
+    }
+
+    public List<PharmEntity> checkAllBookmark(Long userId){
+        return pharmRepository.findAllByUserIdOrderByIdDesc(userId);
     }
 }

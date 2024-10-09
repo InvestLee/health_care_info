@@ -7,12 +7,10 @@ import com.health_care_info.api.domain.pharmacy.model.PharmacyIdRequest;
 import com.health_care_info.api.domain.pharmacy.model.PharmacyResponse;
 import com.health_care_info.api.domain.pharmacy.model.PharmacySearchRequest;
 import com.health_care_info.api.domain.user.model.User;
+import com.health_care_info.api.domain.user.model.UserResponse;
 import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -39,6 +37,15 @@ public class PharmacyApiController {
                 user,
                 request.getBody()
         );
+        return Api.OK(response);
+    }
+
+    @GetMapping("/checkAllBookmark")
+    public Api<List<PharmacyResponse>> checkAllBookmark(
+            @UserSession User user
+    )throws SAXException, IOException, ParserConfigurationException
+    {
+        var response = pharmacyBusiness.checkAllBookmark(user);
         return Api.OK(response);
     }
 }
