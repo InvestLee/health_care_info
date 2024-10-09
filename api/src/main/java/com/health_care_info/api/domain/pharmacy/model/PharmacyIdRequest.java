@@ -10,8 +10,4 @@ import lombok.NoArgsConstructor;
 public class PharmacyIdRequest {
 
     private String hpId; /*기관ID*/
-
-    private String pageNo; /*페이지 번호*/
-
-    private String numOfRows; /*목록 건수*/
 }

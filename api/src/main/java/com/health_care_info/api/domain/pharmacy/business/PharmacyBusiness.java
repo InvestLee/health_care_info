@@ -5,6 +5,8 @@ import com.health_care_info.api.domain.pharmacy.converter.PharmacyConverter;
 import com.health_care_info.api.domain.pharmacy.model.PharmacyIdRequest;
 import com.health_care_info.api.domain.pharmacy.model.PharmacyResponse;
 import com.health_care_info.api.domain.pharmacy.model.PharmacySearchRequest;
+import com.health_care_info.api.domain.pharmacy.service.PharmacyService;
+import com.health_care_info.api.domain.user.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.w3c.dom.Document;
@@ -32,6 +34,8 @@ public class PharmacyBusiness {
 
     @Value("${pharmacy.serviceKey}")
     String pharmacyKey;
+
+    private final PharmacyService pharmacyService;
 
     private final PharmacyConverter pharmacyConverter;
 
@@ -86,15 +90,15 @@ public class PharmacyBusiness {
         return response;
     }
 
-    public List<PharmacyResponse> search(
+    public PharmacyResponse search(
             PharmacyIdRequest request
     ) throws SAXException, IOException, ParserConfigurationException
     {
         StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/B552657/ErmctInsttInfoInqireService/getParmacyBassInfoInqire"); /*URL*/
         urlBuilder.append("?" + URLEncoder.encode("serviceKey","UTF-8") + "=" + pharmacyKey); /*Service Key*/
         urlBuilder.append("&" + URLEncoder.encode("HPID","UTF-8") + "=" + URLEncoder.encode(request.getHpId(), "UTF-8")); /*기관ID ex : N0002117*/
-        urlBuilder.append("&" + URLEncoder.encode("pageNo","UTF-8") + "=" + URLEncoder.encode(request.getPageNo(), "UTF-8")); /*페이지 번호 ex : 1*/
-        urlBuilder.append("&" + URLEncoder.encode("numOfRows","UTF-8") + "=" + URLEncoder.encode(request.getNumOfRows(), "UTF-8")); /*목록 건수 ex : 10*/
+        urlBuilder.append("&" + URLEncoder.encode("pageNo","UTF-8") + "=" + URLEncoder.encode("1", "UTF-8")); /*페이지 번호 ex : 1*/
+        urlBuilder.append("&" + URLEncoder.encode("numOfRows","UTF-8") + "=" + URLEncoder.encode("1", "UTF-8")); /*목록 건수 ex : 10*/
         URL url = new URL(urlBuilder.toString());
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("GET");
@@ -119,17 +123,22 @@ public class PharmacyBusiness {
 
         Element root = document.getDocumentElement();
         NodeList nodeList = root.getElementsByTagName("items").item(0).getChildNodes();
-        List<PharmacyResponse> response = new ArrayList<>();
-        PharmacyResponse pharmacyResponse;
-        for(int i = 0; i < nodeList.getLength(); i++){
-            Node nNode = nodeList.item(i);
-            Element eElement = (Element) nNode;
+        PharmacyResponse response;
+        Node nNode = nodeList.item(0);
+        Element eElement = (Element) nNode;
+        response = pharmacyConverter.toResponse(eElement);
 
-            pharmacyResponse = pharmacyConverter.toResponse(eElement);
+        return response;
+    }
 
-            response.add(pharmacyResponse);
-        }
-
+    public PharmacyResponse registerBookmark(
+            User user,
+            PharmacyIdRequest request
+    )throws SAXException, IOException, ParserConfigurationException
+    {
+        var entity = pharmacyConverter.toEntity(user, request);
+        var newEntity = pharmacyService.registerBookmark(entity);
+        PharmacyResponse response = search(request);
         return response;
     }
 }

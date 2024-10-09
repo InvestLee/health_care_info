@@ -23,9 +23,9 @@ public class UserServiceImpl implements UserService {
     public UserEntity register(UserEntity userEntity){
         return Optional.ofNullable(userEntity)
                 .map(it ->{
-                    userEntity.setStatus(UserStatus.REGISTERED);
-                    userEntity.setRegisteredAt(LocalDateTime.now());
-                    return userRepository.save(userEntity);
+                    it.setStatus(UserStatus.REGISTERED);
+                    it.setRegisteredAt(LocalDateTime.now());
+                    return userRepository.save(it);
                 })
                 .orElseThrow(()-> new ApiException(CommonErrorCode.NULL_POINT, "UserEntity Null"))
                 ;

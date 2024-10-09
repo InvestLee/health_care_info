@@ -4,7 +4,11 @@ package com.health_care_info.api.domain.pharmacy.converter;
 import com.health_care_info.api.common.annoation.Converter;
 import com.health_care_info.api.common.error.CommonErrorCode;
 import com.health_care_info.api.common.exception.ApiException;
+import com.health_care_info.api.domain.pharmacy.model.PharmacyIdRequest;
 import com.health_care_info.api.domain.pharmacy.model.PharmacyResponse;
+import com.health_care_info.api.domain.user.model.User;
+import com.health_care_info.db.pharm.PharmEntity;
+import com.health_care_info.db.user.UserEntity;
 import lombok.RequiredArgsConstructor;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -15,6 +19,21 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Converter
 public class PharmacyConverter {
+
+    public PharmEntity toEntity(
+            User user,
+            PharmacyIdRequest request
+    ){
+        return Optional.ofNullable(request)
+                .map(it ->{
+                    return PharmEntity.builder()
+                            .userId(user.getId())
+                            .hpId(request.getHpId())
+                            .build();
+                })
+                .orElseThrow(()-> new ApiException(CommonErrorCode.NULL_POINT, "PharmacyIdRequest Null"))
+                ;
+    }
 
     public PharmacyResponse toResponse(Element eElement) {
 
@@ -53,7 +72,7 @@ public class PharmacyConverter {
                             .wgs84Lat(getTagValue("wgs84Lat", eElement))
                             .build();
                 })
-                .orElseThrow(()-> new ApiException(CommonErrorCode.NULL_POINT, "UserEntity Null"))
+                .orElseThrow(()-> new ApiException(CommonErrorCode.NULL_POINT, "eElement Null"))
                 ;
     }
 

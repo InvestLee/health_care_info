@@ -8,6 +8,8 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "pharm_bm")
 @Data
@@ -17,9 +19,13 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 public class PharmEntity extends BaseEntity {
 
-    @Column(length = 100, nullable = false)
-    private String email;
+    @Column(nullable = false)
+    private Long userId;
 
     @Column(length = 10, nullable = false)
     private String hpId;
+
+    private LocalDateTime registeredAt;
+
+    private LocalDateTime unregisteredAt;
 }

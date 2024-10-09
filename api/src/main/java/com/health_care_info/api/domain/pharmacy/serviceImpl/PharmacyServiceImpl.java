@@ -25,8 +25,11 @@ public class PharmacyServiceImpl implements PharmacyService {
 
     public PharmEntity registerBookmark(PharmEntity pharmEntity){
         return Optional.ofNullable(pharmEntity)
-                .map(it -> pharmRepository.save(pharmEntity))
-                .orElseThrow(()-> new ApiException(CommonErrorCode.NULL_POINT, "UserEntity Null"))
+                .map(it -> {
+                    it.setRegisteredAt(LocalDateTime.now());
+                    return pharmRepository.save(it);
+                })
+                .orElseThrow(()-> new ApiException(CommonErrorCode.NULL_POINT, "PharmEntity Null"))
                 ;
     }
 }

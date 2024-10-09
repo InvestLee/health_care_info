@@ -21,12 +21,16 @@ public class QPharmEntity extends EntityPathBase<PharmEntity> {
 
     public final com.health_care_info.db.QBaseEntity _super = new com.health_care_info.db.QBaseEntity(this);
 
-    public final StringPath email = createString("email");
-
     public final StringPath hpId = createString("hpId");
 
     //inherited
     public final NumberPath<Long> id = _super.id;
+
+    public final DateTimePath<java.time.LocalDateTime> registeredAt = createDateTime("registeredAt", java.time.LocalDateTime.class);
+
+    public final DateTimePath<java.time.LocalDateTime> unregisteredAt = createDateTime("unregisteredAt", java.time.LocalDateTime.class);
+
+    public final NumberPath<Long> userId = createNumber("userId", Long.class);
 
     public QPharmEntity(String variable) {
         super(PharmEntity.class, forVariable(variable));

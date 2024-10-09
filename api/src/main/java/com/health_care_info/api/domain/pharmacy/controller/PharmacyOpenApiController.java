@@ -29,7 +29,7 @@ public class PharmacyOpenApiController {
     }
 
     @PostMapping("/pharmacyId")
-    public Api<List<PharmacyResponse>> hpIdSearch(
+    public Api<PharmacyResponse> hpIdSearch(
             @RequestBody Api<PharmacyIdRequest> request
     ) throws SAXException, IOException, ParserConfigurationException
     {
