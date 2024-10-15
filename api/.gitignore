@@ -17,6 +17,9 @@ out/
 !**/src/test/**/out/
 *.yml
 *.py
+*.env
+.env
+!**/src/main/resources/
 
 ### Eclipse ###
 .apt_generated
