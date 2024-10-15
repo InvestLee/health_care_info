@@ -19,7 +19,7 @@ out/
 *.py
 *.env
 .env
-!**/src/main/resources/
+**/src/main/resources/static/
 
 ### Eclipse ###
 .apt_generated
